@@ -1,0 +1,7 @@
+pyjwt
+quart
+dotenv
+donttrust
+quart-cors
+torch
+transformers

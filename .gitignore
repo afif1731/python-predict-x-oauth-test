@@ -1,0 +1,9 @@
+Lib/
+Scripts/
+docker/
+model/
+.venv/
+
+.env
+pyvenv.cfg
+*__pycache__*
