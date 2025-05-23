@@ -1,6 +1,6 @@
 import torch
 
-pth_path = "./model/bert_stockbit_classification.pth"
+pth_path = "./model/hate_speech/bert_hs/model.safetensors"
 obj = torch.load(pth_path, map_location="cpu")
 
 if isinstance(obj, dict):
