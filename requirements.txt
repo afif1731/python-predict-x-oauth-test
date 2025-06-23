@@ -5,3 +5,6 @@ donttrust
 quart-cors
 torch
 transformers
+stopwordsiso
+levenshtein
+git+https://github.com/ariaghora/mpstemmer.git

@@ -1,5 +1,6 @@
 import torch
 import torch.nn.functional as F
+from src.utils.model_preprocessing import do_preprocess
 from src.config.model_config import model_hs, model_sh, tokenizer_hs, tokenizer_sh, device
 
 async def batch_predict_service(batch_data):
@@ -27,15 +28,17 @@ async def batch_predict_service(batch_data):
 
 async def get_predict(texts: list[str]):
   inputs_sh = tokenizer_sh(texts, return_tensors="pt", padding=True).to(device)
-  inputs_hs = tokenizer_hs(texts, return_tensors="pt", padding=True).to(device)
+  inputs_hs = tokenizer_hs(do_preprocess(texts), return_tensors="pt", padding=True).to(device)
 
   with torch.no_grad():
     outputs_sh = model_sh(**inputs_sh)
+    # print(outputs_sh.logits)
     probs_sh = F.softmax(outputs_sh.logits, dim=-1)
     pred_classes_sh = torch.argmax(probs_sh, dim=-1)
     confidences_sh = torch.max(probs_sh, dim=-1).values
 
     outputs_hs = model_hs(**inputs_hs)
+    # print(outputs_hs.logits)
     probs_hs = F.softmax(outputs_hs.logits, dim=-1)
     pred_classes_hs = torch.argmax(probs_hs, dim=-1)
     confidences_hs = torch.max(probs_hs, dim=-1).values
